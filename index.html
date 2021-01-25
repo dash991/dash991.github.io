@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- Load the JS file -->
+  <script src="https://cdn.jsdelivr.net/npm/@gitgraph/js"></script>
+  <style>
+	.svg-content { 
+		display: inline-block;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	.svg-container { 
+		display: inline-block;
+		position: relative;
+		width: 100%;
+		padding-bottom: 100%; 
+		vertical-align: middle; 
+		overflow: hidden; 
+	}
+  </style>
+
+</head>
+<body>
+  <!-- DOM element in which we'll mount our graph -->
+  <div id="graph-container"></div>
+
+  <!-- Use the `GitgraphJS` global variable to create your graph -->
+  <script>
+    // Get the graph container HTML element.
+	var options = {
+		orientation: "vertical-reverse"
+	};
+	
+    const graphContainer = document.getElementById("graph-container");
+
+    // Instantiate the graph.
+    const gitgraph = GitgraphJS.createGitgraph(graphContainer, options);
+
+    // Simulate git commands with Gitgraph API.
+    const master = gitgraph.branch({name: "master"});
+
+	
+    master.commit({ subject: "Hello world! - January 30, 1991", author: "Riccardo Bianco <riccardo.bianco@example.org>", body: "Beautiful - everyone say that, so it's true - but not very stable. I'm cry sometimes, maybe I'll fix this one day." });
+	
+	const school = master.branch("env/school");
+	school.commit({ subject: "ITIS Amedeo Avogadro, Turin - September 2004", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Starting to study C, Assembly x86, Python, VB6, PHP, SQL. Pretty cool. I also like to write."});
+	
+	const free = master.branch("env/free");
+	free.commit({ subject: "Co-administering a Mambo based website - Approx. 2005", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Make also some Flash animations. What an impressive technology, it will long last forever!"});
+	
+	const feature_study = school.branch({name: "feature/study", style: {color: "#f37735"}, commitDefaultOptions: { style: {message: {color: "#f37735"},dot: {color: "#f37735"}}} });
+	feature_study.commit({ subject: "Moodle administrator", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "E-learning platform administrator. Coding some platform plugins with a classmate in order to make an attitudinal test table recap. I swear that I don't know correct answers in advance."})
+    feature_study.commit({ subject: "Attending school year inauguration in Palazzo Del Quirinale, Rome - 2008", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Before the inauguration live on Rai 1 hosted by Fabrizio Frizzi with Giorgio Napolitano and some other important people, I've tried to enter with my folks in Giardini del Quirinale, even if it was not Festa della Repubblica. Received 403 Forbidden after short time."});	
+
+    school.commit({ subject: "Higher National Diploma (it.: Informatica ABACUS) - July 8, 2009", author: "Riccardo Bianco <riccardo.bianco@gmail.com>"}).tag("100/100");
+	school.commit({ subject: "Polytechnic University of Turin - September 2009", author: "Riccardo Bianco <s165178@studenti.polito.it>", body: "More C, more Assembly x86, more SQL. Starting to study Java. Starting to lose hair. I'm cry sometimes, especially during Physics I/II. Maybe it's a regression to first commit."});
+
+	feature_study.commit({ subject: "Stage in GCS - Global Computer Solution, Turin - April 2012", author: "Riccardo Bianco <riccardo.bianco@gcsolutions.it>", body: "Hands on Drupal. Coding some PHP plugins to implement new features on a document archiviation platform. JQuery.now().then()."});
+	const work = feature_study.branch({name: "env/work", style: {color: "#00B159"}, commitDefaultOptions: { style: {message: {color: "#00B159"},dot: {color: "#00B159"}}} });
+
+    school.commit({ subject: "Bachelor's degree in Computer Science - Polytechnic University of Turin - October 19, 2012", author: "Riccardo Bianco <s165178@studenti.polito.it>"}).tag("105/110");
+	work.commit({ subject: "Part-time in GCS - Global Computer Solution - October 2012", author: "Riccardo Bianco <riccardo.bianco@gcsolutions.it>", body: "Still Drupal, still PHP, new projects."});
+
+    school.commit({ subject: "Polytechnic University of Turin - Polytechnic University of Turin - October 2012", author: "Riccardo Bianco <s198264@studenti.polito.it>", body: "Change mail address."}).tag({ name: 'v. 2.0', style: {borderRadius: 0, pointerWidth: 0} });
+
+	work.commit({ subject: "Last commit in GCS - Global Computer Solution - July 2013", author: "Riccardo Bianco <riccardo.bianco@gcsolutions.it>"});
+
+	feature_study.commit({ subject: "Laboratory assistant - Scholarship - October 2013", author: "Riccardo Bianco <s198264@studenti.polito.it>", body: "Laboratory assistant during Object Programming, Computer Networks, Information Systems. I'm explain recursion with matrioskas and functions with washing machines (\"You don't build a washing machine everytime you have to clean your t-shirt\"). Kinda works."});
+	
+	free.commit({ subject: "Open a Facebook page - December 2013", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Not a social media manager AFAIK, but let's try the numbeeeeer!"});
+	
+	feature_study.commit({ subject: "OpenScuola - Scolarship - February 2014", author: "Riccardo Bianco <s198264@studenti.polito.it>", body: "Phase one: collect old-but-gold computers from banks and public administration. Phase two: convert in a server + thin client architecture and install them in middle schools (even in my middle school!). Phase three: profit."});
+	feature_study.commit({ subject: "CubeSat Team - Scolarship - February 2014", author: "Riccardo Bianco <s198264@studenti.polito.it>", body: "Wordpressing team website, starting from bunch of PHP and some high-level ideas. Write a plugin that tracks one of their cube satellites."});
+
+	master.merge(feature_study);
+
+    school.commit({ subject: "Master's degree in Computer Science - Polytechnic University of Turin - October 23, 2015", author: "Riccardo Bianco <s198264@studenti.polito.it>", body: "Written a thesis about multi-objective network optimization, using genetic algorithms. Cited an inspirational quote from Arrigo Sacchi - even if I'm (it.) fino alla fine not milanista - on the acknowledgements. Lift my master's degree in the sky with a cardboard Champions League."}).tag("106/110");
+	master.merge(school);
+	
+	work.commit({ subject: "Consultant C2 in Iriscube Reply, Turin - December 2015", author: "Riccardo Bianco <ri.bianco@reply.it>", body: ""});
+
+	free.commit({ subject: "Interviewing a football journalist and commentator - December 2017", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Plus, being interviewed by the same football journalist."});
+
+	work.commit({ subject: "Consultant C3 in Iriscube Reply, Turin - March 2018", author: "Riccardo Bianco <ri.bianco@reply.it>", body: ""});
+	
+	free.commit({ subject: "Sentiero della Bonifica by bike - September 2018", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Very beautiful landscapes, very happy when have arrived in Chiusi from Arezzo, even more happier when have had some cantucci col vin santo on dinner."});
+	
+	master.commit({ subject: "", author: "Riccardo Bianco <bianco.riccardo@gmail.com>", body: "Beautiful - everyone say that, so it's true - but not very stable. I'm cry sometimes, maybe I'll fix this one day." });
+
+
+  </script>
+</body>
+</html>
